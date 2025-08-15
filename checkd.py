@@ -47,13 +47,16 @@ def send_telegram_message(message):
 # === SELENIUM (HEADLESS CHROMIUM) ===
 def create_driver():
     chrome_options = Options()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN", "/usr/bin/chromium-browser")
+    # Gunakan Chromium yang ada di Render
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN", "/usr/bin/chromium")
     chrome_options.add_argument("--headless=new")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--window-size=1920,1080")
 
-    service = Service("/usr/bin/chromedriver")
+    # WebDriverManager otomatis download driver compatible
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
 
