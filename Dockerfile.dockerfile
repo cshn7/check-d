@@ -5,7 +5,6 @@ ENV GOOGLE_CHROME_BIN=/usr/bin/chromium
 
 RUN apt-get update && apt-get install -y \
     chromium \
-    chromium-driver \
     fonts-liberation \
     libnss3 \
     libx11-xcb1 \
