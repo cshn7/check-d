@@ -2,7 +2,9 @@ FROM python:3.13-slim
 
 ENV PYTHONUNBUFFERED=1
 ENV GOOGLE_CHROME_BIN=/usr/bin/chromium
+ENV PATH="/usr/bin:${PATH}"
 
+# Install dependencies + Chromium
 RUN apt-get update && apt-get install -y \
     chromium \
     fonts-liberation \
@@ -28,10 +30,13 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy requirements
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy project
 COPY . /app
 WORKDIR /app
 
+# Jalankan script
 CMD ["python", "checkd.py"]
