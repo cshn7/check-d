@@ -120,5 +120,9 @@ def check_domains():
 # === MAIN (single run) ===
 if __name__ == "__main__":
     while True:
-        check_domains()
+        try:
+            check_domains()
+        except Exception as e:
+            print(f"⚠️ Terjadi error: {e}")
         time.sleep(900)  # 15 menit
+        
