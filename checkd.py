@@ -1,6 +1,8 @@
 import os
 import json
 import time
+import socket
+import threading
 import requests
 import gspread
 from selenium import webdriver
@@ -11,6 +13,20 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from oauth2client.service_account import ServiceAccountCredentials
+
+# === PORT DUMMY (Render Free Plan Web Service) ===
+def open_dummy_port(port=10000):
+    """Buka port dummy supaya Render Web Service free plan tidak error."""
+    s = socket.socket()
+    s.bind(("0.0.0.0", port))
+    s.listen()
+    print(f"🔹 Dummy port {port} terbuka untuk Render Web Service")
+    while True:
+        conn, _ = s.accept()
+        conn.close()
+
+# Jalankan thread untuk port dummy
+threading.Thread(target=open_dummy_port, daemon=True).start()
 
 # === KONFIGURASI ===
 SPREADSHEET_ID = os.getenv("SPREADSHEET_ID")          # ID Spreadsheet
@@ -125,4 +141,3 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"⚠️ Terjadi error: {e}")
         time.sleep(900)  # 15 menit
-        
